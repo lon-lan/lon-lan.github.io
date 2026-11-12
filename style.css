@@ -194,186 +194,125 @@ img, video{ max-width: 100%; display: block; }
 .btn-ghost:hover{ border-color: var(--gold); color: var(--gold); }
 
 /* ---------------------------------------------------------
-   Reel
---------------------------------------------------------- */
-.reel{
-  max-width: 1100px; margin: 0 auto;
-  padding: clamp(40px, 8vw, 72px) var(--edge) clamp(64px, 10vw, 96px);
-  border-top: 1px solid var(--line);
-}
-
-.reel-head{
-  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
-  gap: 12px; margin-bottom: clamp(28px, 5vw, 48px);
-}
-
-.reel-head h2{ font-size: clamp(1.8rem, 3.5vw, 2.4rem); }
-
-.reel-count{ margin: 0; color: var(--ink-dim); font-size: 0.95rem; }
-
-.reel-list{ list-style: none; margin: 0; padding: 0; }
-
-.reel-item{ border-bottom: 1px solid var(--line); }
-
-.reel-trigger{
-  width: 100%;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: clamp(14px, 3vw, 28px);
-  background: none; border: none; cursor: pointer;
-  color: var(--ink);
-  padding: 22px 0;
-  text-align: left;
-  font-family: var(--body);
-}
-
-.reel-index{
-  font-family: var(--display); font-style: italic;
-  color: var(--gold);
-  font-size: 1.1rem;
-  min-width: 2.4ch;
-}
-
-.reel-title{
-  font-family: var(--display);
-  font-weight: 480;
-  font-size: clamp(1.05rem, 2.2vw, 1.5rem);
-  line-height: 1.25;
-}
-
-.reel-chevron{
-  width: 12px; height: 12px;
-  border-right: 1.5px solid var(--ink-dim);
-  border-bottom: 1.5px solid var(--ink-dim);
-  transform: rotate(45deg);
-  transition: transform 0.25s ease, border-color 0.2s ease;
-  flex-shrink: 0;
-}
-
-.reel-trigger[aria-expanded="true"] .reel-chevron{
-  transform: rotate(-135deg);
-  border-color: var(--gold);
-}
-
-.reel-trigger:hover .reel-title{ color: var(--gold); }
-
-.reel-panel{
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s ease;
-}
-.reel-panel-inner{ overflow: hidden; }
-
-.reel-item.is-open .reel-panel{ grid-template-rows: 1fr; }
-
-.reel-desc{
-  max-width: 62ch;
-  padding-top: 4px;
-}
-
-.reel-video{
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #000;
-  margin: 4px 0 28px;
-}
-.reel-video video{
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-}
-
-/* ---------------------------------------------------------
-   Scroll reveal — same quiet system used for the reel rows
-   and the about section; each element fades up once, the
-   first time it enters the viewport
+   Scroll reveal — each element fades up once, the first time
+   it enters the viewport
 --------------------------------------------------------- */
 .reveal{
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease;
 }
 .reveal.is-visible{
   opacity: 1;
   transform: translateY(0);
 }
 
-.reel-item:nth-child(1){ transition-delay: 0s; }
-.reel-item:nth-child(2){ transition-delay: 0.06s; }
-.reel-item:nth-child(3){ transition-delay: 0.12s; }
-.reel-item:nth-child(4){ transition-delay: 0.18s; }
-.reel-item:nth-child(5){ transition-delay: 0.24s; }
-.reel-item:nth-child(6){ transition-delay: 0.3s; }
-
 .about-copy.is-visible{ transition-delay: 0.1s; }
 
 /* ---------------------------------------------------------
-   UGC wall
+   Video walls (UGC, podcast, real estate) — one component
 --------------------------------------------------------- */
-.ugc-wall{
+.wall{
   max-width: 1100px; margin: 0 auto;
-  padding: clamp(40px, 8vw, 72px) var(--edge) clamp(64px, 10vw, 96px);
+  padding: clamp(48px, 8vw, 88px) var(--edge) clamp(56px, 9vw, 96px);
   border-top: 1px solid var(--line);
+  scroll-margin-top: 72px;
 }
 
-.ugc-grid{
+.wall-head{
+  display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
+  gap: 12px 24px; margin-bottom: clamp(28px, 5vw, 44px);
+}
+
+.wall-num{
+  margin: 0 0 10px;
+  font-family: var(--display); font-style: italic;
+  color: var(--gold);
+  font-size: 1.05rem;
+}
+
+.wall-head h2{ font-size: clamp(1.9rem, 4vw, 2.6rem); }
+
+.wall-count{
+  margin: 0;
+  max-width: 38ch;
+  color: var(--ink-dim);
+  font-size: 0.95rem;
+}
+
+/* Same tile size on every wall so the three sections share one
+   rhythm, even when a wall has fewer clips */
+.clip-grid{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: clamp(10px, 2vw, 18px);
 }
-
 @media (min-width: 640px){
-  .ugc-grid{ grid-template-columns: repeat(3, 1fr); }
+  .clip-grid{ grid-template-columns: repeat(3, 1fr); }
 }
 @media (min-width: 900px){
-  .ugc-grid{ grid-template-columns: repeat(5, 1fr); }
+  .clip-grid{ grid-template-columns: repeat(5, 1fr); }
 }
 
-.ugc-tile{
+.clip-tile{
   position: relative;
   aspect-ratio: 9 / 16;
   width: 100%;
   padding: 0;
   border: 1px solid var(--line);
+  border-radius: 10px;
   background: #000;
   cursor: pointer;
   overflow: hidden;
+  isolation: isolate;
   font-family: var(--body);
-  transition: border-color 0.2s ease, transform 0.2s ease;
 }
-.ugc-tile:hover,
-.ugc-tile:focus-visible{
+/* Once the reveal has finished, swap to snappy hover transitions
+   with no stagger delay (class added in script.js) */
+.clip-tile.reveal.is-settled{
+  transition: transform 0.25s ease,
+              border-color 0.2s ease,
+              box-shadow 0.25s ease;
+  transition-delay: 0s;
+}
+.clip-tile:hover,
+.clip-tile:focus-visible{
   border-color: var(--gold);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -18px rgba(0,0,0,0.8);
 }
 
-.ugc-tile video{
+.clip-tile video{
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.clip-tile:hover video{ transform: scale(1.04); }
 
-.ugc-tile::after{
+.clip-tile::after{
   content: "";
   position: absolute; inset: auto 0 0 0;
-  height: 60%;
-  background: linear-gradient(180deg, rgba(21,19,15,0) 0%, rgba(21,19,15,0.85) 100%);
+  height: 55%;
+  background: linear-gradient(180deg, rgba(21,19,15,0) 0%, rgba(21,19,15,0.9) 100%);
   pointer-events: none;
+  z-index: 1;
 }
 
-.ugc-play{
+.clip-play{
   position: absolute; top: 50%; left: 50%;
-  width: 44px; height: 44px;
+  width: 48px; height: 48px;
   transform: translate(-50%, -50%);
   border-radius: 999px;
   background: rgba(21,19,15,0.55);
+  backdrop-filter: blur(4px);
   border: 1px solid rgba(243,238,227,0.4);
   z-index: 2;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
-.ugc-play::before{
+.clip-play::before{
   content: "";
   position: absolute; top: 50%; left: 54%;
   transform: translate(-50%, -50%);
@@ -381,61 +320,80 @@ img, video{ max-width: 100%; display: block; }
   border-width: 7px 0 7px 11px;
   border-color: transparent transparent transparent var(--ink);
 }
-.ugc-tile:hover .ugc-play,
-.ugc-tile:focus-visible .ugc-play{ opacity: 0; }
+.clip-tile:hover .clip-play,
+.clip-tile:focus-visible .clip-play{
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.85);
+}
 
-.ugc-tile-title{
-  position: absolute; left: 12px; right: 12px; bottom: 10px;
+.clip-dur{
+  position: absolute; top: 10px; right: 10px;
+  z-index: 2;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(21,19,15,0.7);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.clip-title{
+  position: absolute; left: 12px; right: 12px; bottom: 12px;
   z-index: 2;
   text-align: left;
   color: var(--ink);
-  font-size: 0.82rem;
+  font-size: 0.85rem;
+  font-weight: 500;
   line-height: 1.3;
 }
 
-.ugc-tile:nth-child(1){ transition-delay: 0s; }
-.ugc-tile:nth-child(2){ transition-delay: 0.06s; }
-.ugc-tile:nth-child(3){ transition-delay: 0.12s; }
-.ugc-tile:nth-child(4){ transition-delay: 0.18s; }
-.ugc-tile:nth-child(5){ transition-delay: 0.24s; }
+.clip-tile:nth-child(2){ transition-delay: 0.06s; }
+.clip-tile:nth-child(3){ transition-delay: 0.12s; }
+.clip-tile:nth-child(4){ transition-delay: 0.18s; }
+.clip-tile:nth-child(5){ transition-delay: 0.24s; }
 
 /* Modal */
-.ugc-modal{
+.clip-modal{
   position: fixed; inset: 0; z-index: 80;
   display: flex; align-items: center; justify-content: center;
   padding: 24px;
 }
-.ugc-modal[hidden]{ display: none; }
+.clip-modal[hidden]{ display: none; }
 
-.ugc-modal-backdrop{
+.clip-modal-backdrop{
   position: absolute; inset: 0;
-  background: rgba(10,9,7,0.88);
+  background: rgba(10,9,7,0.9);
+  backdrop-filter: blur(6px);
+  animation: fade-in 0.2s ease;
 }
 
-.ugc-modal-inner{
+.clip-modal-inner{
   position: relative;
   width: min(420px, 100%);
   max-height: 90vh;
+  animation: modal-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.ugc-modal-inner video{
+.clip-modal-inner video{
   width: 100%;
   max-height: 78vh;
   background: #000;
   aspect-ratio: 9 / 16;
   object-fit: contain;
+  border-radius: 10px;
 }
 
-.ugc-modal-title{
+.clip-modal-title{
   margin: 14px 0 0;
   color: var(--ink-dim);
   font-size: 0.9rem;
   text-align: center;
 }
 
-.ugc-modal-close{
-  position: absolute; top: -44px; right: 0;
-  width: 36px; height: 36px;
+.clip-modal-close{
+  position: absolute; top: -48px; right: 0;
+  width: 38px; height: 38px;
   border-radius: 999px;
   border: 1px solid var(--line);
   background: rgba(21,19,15,0.6);
@@ -444,13 +402,17 @@ img, video{ max-width: 100%; display: block; }
   line-height: 1;
   cursor: pointer;
 }
-.ugc-modal-close:hover{ border-color: var(--gold); color: var(--gold); }
+.clip-modal-close:hover{ border-color: var(--gold); color: var(--gold); }
+
+@keyframes fade-in{ from{ opacity: 0; } }
+@keyframes modal-in{ from{ opacity: 0; transform: translateY(12px) scale(0.98); } }
 
 /* ---------------------------------------------------------
    About
 --------------------------------------------------------- */
 .about{
   max-width: 1100px; margin: 0 auto;
+  scroll-margin-top: 72px;
   padding: clamp(48px, 8vw, 80px) var(--edge) clamp(80px, 12vw, 120px);
   border-top: 1px solid var(--line);
   display: grid;
@@ -459,6 +421,7 @@ img, video{ max-width: 100%; display: block; }
 
 .about-photo img{
   width: 100%;
+  border-radius: 10px;
   aspect-ratio: 4 / 5;
   object-fit: cover;
 }
@@ -536,12 +499,4 @@ img, video{ max-width: 100%; display: block; }
   .nav-toggle[aria-expanded="true"] .nav-toggle-bar:last-child{
     transform: translateY(-3.5px) rotate(-45deg);
   }
-}
-
-/* ---------------------------------------------------------
-   Reel row: stack chevron/title sensibly on very small screens
---------------------------------------------------------- */
-@media (max-width: 420px){
-  .reel-trigger{ grid-template-columns: auto 1fr auto; }
-  .reel-index{ font-size: 0.95rem; min-width: 2ch; }
 }

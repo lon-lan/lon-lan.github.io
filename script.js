@@ -17,14 +17,22 @@ if (navToggle && navSheet) {
 }
 
 // Scroll reveal — fade each .reveal element up once, the first time it
-// enters the viewport (reel rows, about section)
+// enters the viewport (wall headers, clip tiles, about section)
 const revealEls = document.querySelectorAll('.reveal');
+
+// Clip tiles carry a staggered reveal delay; once the reveal is done,
+// mark them settled so hover transitions respond instantly
+function settleClipTile(el) {
+  if (!el.classList.contains('clip-tile')) return;
+  el.addEventListener('transitionend', () => el.classList.add('is-settled'), { once: true });
+}
 
 if ('IntersectionObserver' in window && revealEls.length) {
   const revealObserver = new IntersectionObserver(
     (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          settleClipTile(entry.target);
           entry.target.classList.add('is-visible');
           observer.unobserve(entry.target);
         }
@@ -35,68 +43,53 @@ if ('IntersectionObserver' in window && revealEls.length) {
 
   revealEls.forEach((el) => revealObserver.observe(el));
 } else {
-  revealEls.forEach((el) => el.classList.add('is-visible'));
+  revealEls.forEach((el) => {
+    el.classList.add('is-visible');
+    if (el.classList.contains('clip-tile')) el.classList.add('is-settled');
+  });
 }
 
-// Reel accordion — only one film open at a time, video pauses when collapsed
-document.querySelectorAll('.reel-item').forEach((item) => {
-  const trigger = item.querySelector('.reel-trigger');
-  const video = item.querySelector('video');
-
-  trigger.addEventListener('click', () => {
-    const isOpen = item.classList.contains('is-open');
-
-    document.querySelectorAll('.reel-item.is-open').forEach((openItem) => {
-      if (openItem !== item) {
-        openItem.classList.remove('is-open');
-        openItem.querySelector('.reel-trigger').setAttribute('aria-expanded', 'false');
-        const openVideo = openItem.querySelector('video');
-        if (openVideo) openVideo.pause();
-      }
-    });
-
-    item.classList.toggle('is-open', !isOpen);
-    trigger.setAttribute('aria-expanded', String(!isOpen));
-    if (isOpen && video) video.pause();
-  });
-});
-
-// UGC wall — muted preview on hover (desktop), tap opens a modal
-// with sound (works for touch devices too, where hover doesn't apply)
-const ugcTiles = document.querySelectorAll('.ugc-tile');
-const ugcModal = document.getElementById('ugcModal');
-const ugcModalVideo = document.getElementById('ugcModalVideo');
-const ugcModalTitle = document.getElementById('ugcModalTitle');
+// Video walls (UGC, podcast, real estate) — muted preview on hover
+// (desktop), tap opens a modal with sound (works for touch devices too,
+// where hover doesn't apply)
+const clipTiles = document.querySelectorAll('.clip-tile');
+const clipModal = document.getElementById('clipModal');
+const clipModalVideo = document.getElementById('clipModalVideo');
+const clipModalTitle = document.getElementById('clipModalTitle');
+const clipModalClose = clipModal ? clipModal.querySelector('.clip-modal-close') : null;
 const canHover = window.matchMedia('(hover: hover)').matches;
+let lastFocusedTile = null;
 
-function pauseAllUgcTiles() {
-  ugcTiles.forEach((tile) => {
+function pauseAllClipTiles() {
+  clipTiles.forEach((tile) => {
     const v = tile.querySelector('video');
     if (v) { v.pause(); v.currentTime = 0; }
   });
 }
 
-function openUgcModal(src, title) {
-  pauseAllUgcTiles();
-  ugcModalVideo.src = src;
-  ugcModalTitle.textContent = title || '';
-  ugcModal.hidden = false;
+function openClipModal(tile) {
+  pauseAllClipTiles();
+  lastFocusedTile = tile;
+  clipModalVideo.src = tile.dataset.video;
+  clipModalTitle.textContent = tile.dataset.title || '';
+  clipModal.hidden = false;
   document.body.style.overflow = 'hidden';
-  ugcModalVideo.currentTime = 0;
-  ugcModalVideo.muted = false;
-  ugcModalVideo.play().catch(() => {});
+  clipModalVideo.muted = false;
+  clipModalVideo.play().catch(() => {});
+  if (clipModalClose) clipModalClose.focus();
 }
 
-function closeUgcModal() {
-  ugcModalVideo.pause();
-  ugcModalVideo.removeAttribute('src');
-  ugcModalVideo.load();
-  ugcModal.hidden = true;
+function closeClipModal() {
+  clipModalVideo.pause();
+  clipModalVideo.removeAttribute('src');
+  clipModalVideo.load();
+  clipModal.hidden = true;
   document.body.style.overflow = '';
+  if (lastFocusedTile) lastFocusedTile.focus();
 }
 
-if (ugcTiles.length && ugcModal) {
-  ugcTiles.forEach((tile) => {
+if (clipTiles.length && clipModal) {
+  clipTiles.forEach((tile) => {
     const video = tile.querySelector('video');
 
     if (canHover && video) {
@@ -110,16 +103,25 @@ if (ugcTiles.length && ugcModal) {
       });
     }
 
-    tile.addEventListener('click', () => {
-      openUgcModal(tile.dataset.video, tile.dataset.title);
-    });
+    tile.addEventListener('click', () => openClipModal(tile));
   });
 
-  ugcModal.querySelectorAll('[data-ugc-close]').forEach((el) => {
-    el.addEventListener('click', closeUgcModal);
+  clipModal.querySelectorAll('[data-clip-close]').forEach((el) => {
+    el.addEventListener('click', closeClipModal);
   });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !ugcModal.hidden) closeUgcModal();
+    if (clipModal.hidden) return;
+    if (e.key === 'Escape') closeClipModal();
+    // Keep keyboard focus inside the dialog: only the close button and
+    // the video controls are focusable
+    if (e.key === 'Tab') {
+      const focusables = [clipModalClose, clipModalVideo];
+      const i = focusables.indexOf(document.activeElement);
+      if (i === -1) { e.preventDefault(); clipModalClose.focus(); return; }
+      const next = e.shiftKey ? (i + focusables.length - 1) % focusables.length : (i + 1) % focusables.length;
+      e.preventDefault();
+      focusables[next].focus();
+    }
   });
 }
