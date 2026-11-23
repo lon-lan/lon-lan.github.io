@@ -4,7 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jhon Louie Tiongco — Developer &amp; Video Editor</title>
-<meta name="description" content="Developer and short-form video editor: UGC product films, podcast clips and real estate tours.">
+<meta name="description" content="Developer and short-form video editor: UGC product films, podcast clips with motion-graphic captions, and real estate tours.">
+<meta name="theme-color" content="#15130f">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jhon Louie Tiongco — Developer &amp; Video Editor">
+<meta property="og:description" content="Short-form video edits and web development: UGC product films, podcast clips and real estate tours.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2315130f'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-style='italic' font-size='30' text-anchor='middle' fill='%23c99a46'%3EJLT%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,480;0,9..144,560;1,9..144,420&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
@@ -25,10 +30,12 @@
     </button>
 
     <ul class="nav-links" id="navSheet">
-      <li><a href="#about">About</a></li>
       <li><a href="#ugc">UGC</a></li>
       <li><a href="#podcast">Podcast</a></li>
       <li><a href="#realestate">Real estate</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
       <li><a class="nav-resume" href="File/Jhon_Louie_Tiongco_Resume.pdf" download="Jhon_Louie_Tiongco_Resume.pdf">Resume</a></li>
     </ul>
   </nav>
@@ -37,22 +44,52 @@
 <main id="main">
 
   <section id="top" class="hero">
-    <p class="kicker">Code and cinema, built together</p>
-    <h1 class="hero-name">
-      <span>Jhon Louie</span>
-      <span>Tiongco</span>
-    </h1>
-    <p class="hero-lede">
-      I'm a developer who also edits short-form video — UGC product films,
-      podcast clips and real estate tours, all below.
-    </p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="#ugc">See the work</a>
-      <a class="btn btn-ghost" href="File/Jhon_Louie_Tiongco_Resume.pdf" download="Jhon_Louie_Tiongco_Resume.pdf">Download resume</a>
+    <div class="hero-copy">
+      <p class="kicker">Developer &amp; short-form video editor</p>
+      <h1 class="hero-name">
+        <span>Jhon Louie</span>
+        <span>Tiongco</span>
+      </h1>
+      <p class="hero-lede">
+        I build websites and cut vertical video — UGC product films,
+        podcast clips with motion-graphic captions, and real estate tours.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#ugc">See the work</a>
+        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+      </div>
+
+      <dl class="hero-stats">
+        <div>
+          <dt>Films</dt>
+          <dd><span data-stat="films">13</span></dd>
+        </div>
+        <div>
+          <dt>Formats</dt>
+          <dd><span data-stat="walls">3</span></dd>
+        </div>
+        <div>
+          <dt>Aspect</dt>
+          <dd>9:16</dd>
+        </div>
+      </dl>
     </div>
+
+    <button class="reel" type="button"
+      data-video="podcast/videos/luke-self-awareness.mp4"
+      data-title="Luke — self-awareness, kinetic captions"
+      data-label="Reel"
+      aria-label="Play the reel with sound: Luke — self-awareness, kinetic captions">
+      <video muted loop playsinline preload="metadata"
+        poster="podcast/posters/luke-self-awareness.jpg">
+        <source src="podcast/videos/luke-self-awareness.mp4" type="video/mp4">
+      </video>
+      <span class="reel-tag"><i aria-hidden="true"></i>Reel</span>
+      <span class="reel-cap">Luke — kinetic captions<small>Tap to watch with sound</small></span>
+    </button>
   </section>
 
-  <section id="ugc" class="wall" aria-labelledby="ugc-title">
+  <section id="ugc" class="wall" aria-labelledby="ugc-title" data-label="UGC">
     <div class="wall-head reveal">
       <div>
         <p class="wall-num">01</p>
@@ -126,16 +163,40 @@
     </div>
   </section>
 
-  <section id="podcast" class="wall" aria-labelledby="podcast-title">
+  <section id="podcast" class="wall" aria-labelledby="podcast-title" data-label="Podcast">
     <div class="wall-head reveal">
       <div>
         <p class="wall-num">02</p>
         <h2 id="podcast-title">Podcast wall</h2>
       </div>
-      <p class="wall-count">Long interviews cut into vertical clips with motion-graphic captions</p>
+      <p class="wall-count">Long-form talk cut into vertical clips, with kinetic captions and motion graphics</p>
     </div>
 
     <div class="clip-grid">
+
+      <button class="clip-tile reveal" type="button"
+        data-video="podcast/videos/conversion-explainer.mp4"
+        data-title="Conversion explainer — motion-graphic breakdown">
+        <video muted loop playsinline preload="none"
+          poster="podcast/posters/conversion-explainer.jpg">
+          <source src="podcast/videos/conversion-explainer.mp4" type="video/mp4">
+        </video>
+        <span class="clip-play" aria-hidden="true"></span>
+        <span class="clip-dur">1:16</span>
+        <span class="clip-title">Conversion explainer — motion-graphic breakdown</span>
+      </button>
+
+      <button class="clip-tile reveal" type="button"
+        data-video="podcast/videos/luke-self-awareness.mp4"
+        data-title="Luke — self-awareness, kinetic captions">
+        <video muted loop playsinline preload="none"
+          poster="podcast/posters/luke-self-awareness.jpg">
+          <source src="podcast/videos/luke-self-awareness.mp4" type="video/mp4">
+        </video>
+        <span class="clip-play" aria-hidden="true"></span>
+        <span class="clip-dur">0:15</span>
+        <span class="clip-title">Luke — self-awareness, kinetic captions</span>
+      </button>
 
       <button class="clip-tile reveal" type="button"
         data-video="podcast/videos/chris-quote.mp4"
@@ -176,16 +237,28 @@
     </div>
   </section>
 
-  <section id="realestate" class="wall" aria-labelledby="realestate-title">
+  <section id="realestate" class="wall" aria-labelledby="realestate-title" data-label="Real estate">
     <div class="wall-head reveal">
       <div>
         <p class="wall-num">03</p>
         <h2 id="realestate-title">Real estate wall</h2>
       </div>
-      <p class="wall-count">Listing walkthroughs edited for Reels and TikTok</p>
+      <p class="wall-count">Drone and walkthrough tours edited for Reels and TikTok</p>
     </div>
 
     <div class="clip-grid">
+
+      <button class="clip-tile reveal" type="button"
+        data-video="realestate/videos/deanston-dr.mp4"
+        data-title="Deanston Dr — new-build home tour">
+        <video muted loop playsinline preload="none"
+          poster="realestate/posters/deanston-dr.jpg">
+          <source src="realestate/videos/deanston-dr.mp4" type="video/mp4">
+        </video>
+        <span class="clip-play" aria-hidden="true"></span>
+        <span class="clip-dur">0:39</span>
+        <span class="clip-title">Deanston Dr — new-build home tour</span>
+      </button>
 
       <button class="clip-tile reveal" type="button"
         data-video="realestate/videos/smith-lake.mp4"
@@ -220,8 +293,35 @@
       <button class="clip-modal-close" data-clip-close type="button" aria-label="Close video">&times;</button>
       <video id="clipModalVideo" controls playsinline></video>
       <p class="clip-modal-title" id="clipModalTitle"></p>
+      <div class="clip-modal-nav" id="clipModalNav">
+        <button type="button" id="clipPrev" aria-label="Previous clip">&larr; Prev</button>
+        <span id="clipModalCount" aria-live="polite"></span>
+        <button type="button" id="clipNext" aria-label="Next clip">Next &rarr;</button>
+      </div>
     </div>
   </div>
+
+  <section id="services" class="services" aria-labelledby="services-title">
+    <div class="section-head reveal">
+      <p class="wall-num">What I do</p>
+      <h2 id="services-title">Video, motion and AI</h2>
+    </div>
+
+    <div class="service-grid">
+      <article class="service reveal">
+        <h3>Short-form video editing</h3>
+        <p>Vertical edits for Reels, TikTok and Shorts — pacing, sound and clean exports that hold attention from the first second.</p>
+      </article>
+      <article class="service reveal">
+        <h3>Motion-graphic captions</h3>
+        <p>Kinetic type, animated callouts, charts and UI cards that make a point land visually instead of just being said.</p>
+      </article>
+      <article class="service reveal">
+        <h3>AI-assisted content</h3>
+        <p>Commercial concepts and visuals developed with AI tools, directed with a storyteller's eye so the result still feels human.</p>
+      </article>
+    </div>
+  </section>
 
   <section id="about" class="about" aria-labelledby="about-title">
     <div class="about-photo reveal">
@@ -235,10 +335,23 @@
     </div>
   </section>
 
+  <section id="contact" class="contact" aria-labelledby="contact-title">
+    <div class="contact-inner reveal">
+      <p class="wall-num">Contact</p>
+      <h2 id="contact-title">Have a project in mind?</h2>
+      <p class="contact-lede">Short-form edits, motion captions or a new website — send a note and I'll get back to you.</p>
+      <div class="hero-actions">
+        <!-- TODO: replace with your real email address -->
+        <a class="btn btn-primary" href="mailto:hello@example.com">Email me</a>
+        <a class="btn btn-ghost" href="File/Jhon_Louie_Tiongco_Resume.pdf" download="Jhon_Louie_Tiongco_Resume.pdf">Download resume</a>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site-foot">
-  <p>Jhon Louie Tiongco</p>
+  <p>&copy; <span id="year">2026</span> Jhon Louie Tiongco</p>
   <a href="#top">Back to top</a>
 </footer>
 
