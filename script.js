@@ -181,13 +181,20 @@ if (clipModal) {
   triggers.forEach((trigger) => {
     const video = trigger.querySelector('video');
 
-    // Hover preview is for wall tiles only; the reel loops on its own
-    if (canHover && video && trigger.classList.contains('clip-tile')) {
+    // Hover preview: wall tiles restart from the top; the reel plays from
+    // where it is (it also autoloops, unless reduced motion is on)
+    if (canHover && video) {
+      const isReel = trigger === reel;
       trigger.addEventListener('mouseenter', () => {
-        video.currentTime = 0;
+        if (!isReel) video.currentTime = 0;
         video.play().catch(() => {});
       });
       trigger.addEventListener('mouseleave', () => {
+        if (isReel) {
+          if (prefersReducedMotion) video.pause();
+          else syncReel();
+          return;
+        }
         video.pause();
         video.currentTime = 0;
       });
